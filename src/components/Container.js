@@ -30,12 +30,12 @@ export default function Container() {
         console.log(`Date string is: ${datePicker}`);
         console.log(`Processed year is: ${dateSelected.getFullYear()}`);
         console.log(`Processed month is: ${dateSelected.getMonth()}`);
-        console.log(`Processed day is: ${dateSelected.getDay()}`);
+        console.log(`Processed day is: ${dateSelected.getDate()}`);
 
         let dailyLogTxn = await sendDailyLog.logDailyData(
           dateSelected.getFullYear(),
           dateSelected.getMonth(),
-          dateSelected.getDay(),
+          dateSelected.getDate(),
           moodPicker,
           cyclePicker,
           { gasLimit: 300000 }
@@ -67,27 +67,31 @@ export default function Container() {
     setCyclePicker(value);
   }
 
+  let addressProps = {
+    address: contractAddress,
+  };
+
   return (
-    <>
-      <div className={"calendar"}>
-        <DatePickerSelector onHappyTime={onDatePicker} />
+    <div>
+      <div className={"main-selectors"}>
+        <div className={"big-div"}>
+          <DatePickerSelector onHappyTime={onDatePicker} />
+          <MoodSelect onMoodPicker={onMoodPicker} />
+          <PeriodSelect onCyclePicker={onCyclePicker} />
+          <Button
+            className={"save_button"}
+            variant="contained"
+            color={"secondary"}
+            onClick={sendAllDataOnSave}
+          >
+            Save
+          </Button>
+        </div>
       </div>
-      <div className={"big-div"}>
-        <MoodSelect onMoodPicker={onMoodPicker} />
-        <PeriodSelect onCyclePicker={onCyclePicker} />
-        <Button
-          className={"save_button"}
-          variant="contained"
-          color={"secondary"}
-          onClick={sendAllDataOnSave}
-          size={"large"}
-        >
-          Save
-        </Button>
+
+      <div className="month-div">
+        <MonthlyLog props={addressProps} />
       </div>
-      <div>
-        <MonthlyLog />
-      </div>
-    </>
+    </div>
   );
 }

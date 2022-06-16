@@ -4,17 +4,40 @@ import abi from "../utils/OonMoon.json";
 import { ethers } from "ethers";
 import { useState } from "react";
 
-export default function MonthlyLog() {
+export default function MonthlyLog(props) {
+  const [contractAddress, setAddress] = useState("");
   const [monthlyResults, setMonthlyResults] = useState("");
-  const contractAddress = "0x4f6977502F7bd2E8Ff128781aAb0a2ad26EBE7dE";
   const abiContract = abi.abi;
+
+  console.log(`contract Address is ${props.props.address}`);
+
+  useState(() => {
+    setAddress(props.props.address);
+  }, [props.props.address]);
 
   function createTableFromMonthlyView(monthlyViewTxn) {
     let resultString = "<table>";
 
     monthlyViewTxn.forEach(function (item, index) {
-      resultString += "<tr><td>" + item.toString() + "</td></tr>";
-      //resultString += "Day " + index + ":" + item.toString();
+      if (
+        index === 0 ||
+        index === 7 ||
+        index === 14 ||
+        index === 21 ||
+        index === 28
+      ) {
+        resultString += "<tr>";
+      }
+      resultString += "<td>" + item.toString() + "</td>";
+      if (
+        index === 6 ||
+        index === 13 ||
+        index === 20 ||
+        index === 27 ||
+        index === 30
+      ) {
+        resultString += "</tr>";
+      }
     });
     resultString += "</table>";
     return resultString;
@@ -55,11 +78,10 @@ export default function MonthlyLog() {
       <div id="monthlyPeriodView" innerHTML={monthlyResults} />
 
       <Button
-        className={"save_button"}
+        className={"monthly_view_button"}
         variant="contained"
         color={"secondary"}
         onClick={getMonthlyData}
-        size={"large"}
       >
         Monthly View
       </Button>
