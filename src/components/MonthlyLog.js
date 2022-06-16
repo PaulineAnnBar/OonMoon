@@ -9,6 +9,16 @@ export default function MonthlyLog() {
   const contractAddress = "0x4f6977502F7bd2E8Ff128781aAb0a2ad26EBE7dE";
   const abiContract = abi.abi;
 
+  function createTableFromMonthlyView(monthlyViewTxn) {
+    let resultString = "<table>";
+
+    monthlyViewTxn.forEach(function (item, index) {
+      resultString += "<tr><td>" + item.toString() + "</td></tr>";
+    });
+    resultString += "</table>";
+    return resultString;
+  }
+
   const getMonthlyData = async () => {
     try {
       const { ethereum } = window;
@@ -26,8 +36,9 @@ export default function MonthlyLog() {
         let monthlyViewTxn = await monthlyView.getMyMonthlyHistory(year, month);
 
         console.log("dailyLog output is:", monthlyViewTxn);
-
-        setMonthlyResults(monthlyViewTxn);
+        const tableText = createTableFromMonthlyView(monthlyViewTxn);
+        console.log("tableText is :", tableText);
+        setMonthlyResults(tableText);
       } else {
         console.log("No ethereum object!");
       }
@@ -39,7 +50,7 @@ export default function MonthlyLog() {
 
   return (
     <div>
-      <div id="monthlyPeriodView">{monthlyResults}</div>
+      <div id="monthlyPeriodView" innerHTML={monthlyResults} />
 
       <Button
         className={"save_button"}
