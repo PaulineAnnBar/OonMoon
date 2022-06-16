@@ -27,6 +27,10 @@ export default function Container() {
           signer
         );
         const dateSelected = new Date(datePicker);
+        console.log(`Date string is: ${datePicker}`);
+        console.log(`Processed year is: ${dateSelected.getFullYear()}`);
+        console.log(`Processed month is: ${dateSelected.getMonth()}`);
+        console.log(`Processed day is: ${dateSelected.getDay()}`);
 
         let dailyLogTxn = await sendDailyLog.logDailyData(
           dateSelected.getFullYear(),

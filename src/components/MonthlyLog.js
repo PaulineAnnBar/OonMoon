@@ -14,6 +14,7 @@ export default function MonthlyLog() {
 
     monthlyViewTxn.forEach(function (item, index) {
       resultString += "<tr><td>" + item.toString() + "</td></tr>";
+      //resultString += "Day " + index + ":" + item.toString();
     });
     resultString += "</table>";
     return resultString;
@@ -39,6 +40,7 @@ export default function MonthlyLog() {
         const tableText = createTableFromMonthlyView(monthlyViewTxn);
         console.log("tableText is :", tableText);
         setMonthlyResults(tableText);
+        document.getElementById("monthlyPeriodView").innerHTML = tableText;
       } else {
         console.log("No ethereum object!");
       }
