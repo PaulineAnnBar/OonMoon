@@ -82,8 +82,9 @@ export default function MonthlyLog(props) {
         variant="contained"
         color={"secondary"}
         onClick={getMonthlyData}
+        value="Get Monthly Data"
       >
-        Monthly View
+        Get Monthly Data
       </Button>
     </div>
   );
