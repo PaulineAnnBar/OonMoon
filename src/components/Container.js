@@ -58,14 +58,16 @@ export default function Container() {
     }
 
     return (
-        <div>
-            <div className={"big-div"}>
+        <>
+            <div className={"calendar"}>
                 <DatePickerSelector onHappyTime={onDatePicker} />
+            </div>
+            <div className={"big-div"}>
                 <MoodSelect onMoodPicker={onMoodPicker} />
                 <PeriodSelect onCyclePicker={onCyclePicker} />
                 <Button className={"save_button"} variant="contained" color={"secondary"} onClick={sendAllDataOnSave} size={"large"}
                 >Save</Button>
             </div>
-        </div>
+        </>
     );
 }

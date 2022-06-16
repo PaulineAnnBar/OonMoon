@@ -8,21 +8,16 @@ import Container from "./components/Container";
 
 
 
-export default function App() {
 
+export default function App() {
   return (
     <div className="App">
       <Header />
-      <div className={"subheader"}>
-        <p className={"subheader"}>This is going to be a great description of whatever we are doing!
-          This is going to be a great description of whatever we are doing!
-          This is going to be a great description of whatever we are doing!
-          This is going to be a great description of whatever we are doing!
-          This is going to be a great description of whatever we are doing!
-          This is going to be a great description of whatever we are doing!
-        </p>
-
-      </div>
+      <p className={"subheader"}>With OonMoon,
+        you’re in control.Your personal information belongs to you and no one else!
+        So we keep you safe. Access your personalized health insights,how your cycle affects your body and well being
+        You can also find here an overview of your monthly log.
+      </p>
       <Container />
     </div>
   );
