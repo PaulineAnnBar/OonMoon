@@ -9,12 +9,6 @@ export default function MonthlyLog() {
   const contractAddress = "0x4f6977502F7bd2E8Ff128781aAb0a2ad26EBE7dE";
   const abiContract = abi.abi;
 
-  function onMonthlyResults(value) {
-    console.log("onMonthlyResults :", value);
-    document.getElementById("monthlyPeriodView").innerText = value;
-    setMonthlyResults(value);
-  }
-
   const getMonthlyData = async () => {
     try {
       const { ethereum } = window;
@@ -45,7 +39,7 @@ export default function MonthlyLog() {
 
   return (
     <div>
-      <div id="monthlyPeriodView"></div>
+      <div id="monthlyPeriodView">{monthlyResults}</div>
 
       <Button
         className={"save_button"}
