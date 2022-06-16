@@ -15,6 +15,7 @@ export default function Container() {
     const contractAddress = "0x4f6977502F7bd2E8Ff128781aAb0a2ad26EBE7dE";
     const abiContract = abi.abi;
 
+
     const sendAllDataOnSave = async () => {
         try {
             const { ethereum } = window;
@@ -26,16 +27,16 @@ export default function Container() {
                     abiContract,
                     signer
                 );
-                const dateSelected = new Date(datePicker);
 
-                let dailyLogTxn = await sendDailyLog.logDailyData(
-                    dateSelected.getFullYear(),
-                    dateSelected.getMonth(),
-                    dateSelected.getDay(),
-                    moodPicker,
-                    cyclePicker,
-                    { gasLimit: 300000 }
-                );
+
+                const dateSelected = new Date(datePicker);
+                console.log(`Date string is: ${datePicker}`);
+                console.log(`Processed year is: ${dateSelected.getFullYear()}`);
+                console.log(`Processed month is: ${dateSelected.getMonth()}`);
+                console.log(`Processed day is: ${dateSelected.getDay()}`);
+
+                let dailyLogTxn = await sendDailyLog.logDailyData(dateSelected.getFullYear(), dateSelected.getMonth(), dateSelected.getDay(), moodPicker, cyclePicker, { gasLimit: 300000 })
+
 
                 console.log("dailyLog", dailyLogTxn);
             } else {
@@ -45,6 +46,8 @@ export default function Container() {
             return "Please make sure you've selected all options!";
         }
     };
+
+
 
     function onDatePicker(value) {
         console.log("onDatePicker :", value);
@@ -86,5 +89,9 @@ export default function Container() {
             </div>
 
         </>
-    );
+    )
 }
+
+
+
+

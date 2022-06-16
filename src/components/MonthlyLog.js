@@ -4,18 +4,22 @@ import abi from "../utils/OonMoon.json";
 import { ethers } from "ethers";
 import { useState } from "react";
 
-
 export default function MonthlyLog(props) {
   const [monthlyResults, setMonthlyResults] = useState("");
   const contractAddress = "0x4f6977502F7bd2E8Ff128781aAb0a2ad26EBE7dE";
   const abiContract = abi.abi;
 
-  function onMonthlyResults(value) {
-    console.log("onMonthlyResults :", value);
-    document.getElementById("monthlyPeriodView").innerText = value;
-    setMonthlyResults(value);
+  function createTableFromMonthlyView(monthlyViewTxn) {
+    let resultString = "<table>";
 
+    monthlyViewTxn.forEach(function (item, index) {
+      resultString += "<tr><td>" + item.toString() + "</td></tr>";
+      //resultString += "Day " + index + ":" + item.toString();
+    });
+    resultString += "</table>";
+    return resultString;
   }
+
   const getMonthlyData = async () => {
     try {
       const { ethereum } = window;
@@ -33,8 +37,10 @@ export default function MonthlyLog(props) {
         let monthlyViewTxn = await monthlyView.getMyMonthlyHistory(year, month);
 
         console.log("dailyLog output is:", monthlyViewTxn);
-
-        setMonthlyResults(monthlyViewTxn);
+        const tableText = createTableFromMonthlyView(monthlyViewTxn);
+        console.log("tableText is :", tableText);
+        setMonthlyResults(tableText);
+        document.getElementById("monthlyPeriodView").innerHTML = tableText;
       } else {
         console.log("No ethereum object!");
       }
@@ -42,11 +48,13 @@ export default function MonthlyLog(props) {
       console.log(`error: ${error}`);
       return "Please make sure you've selected all options!";
     }
-  };
+  }
+
 
   return (
     <div>
-      <div id="monthlyPeriodView"></div>
+      <div id="monthlyPeriodView" innerHTML={monthlyResults} />
+
       <Button
         className={"monthly-view"}
         variant="contained"
@@ -59,3 +67,4 @@ export default function MonthlyLog(props) {
     </div>
   );
 }
+
