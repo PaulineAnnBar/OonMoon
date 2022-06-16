@@ -4,7 +4,8 @@ import abi from "../utils/OonMoon.json";
 import { ethers } from "ethers";
 import { useState } from "react";
 
-export default function MonthlyLog() {
+
+export default function MonthlyLog(props) {
   const [monthlyResults, setMonthlyResults] = useState("");
   const contractAddress = "0x4f6977502F7bd2E8Ff128781aAb0a2ad26EBE7dE";
   const abiContract = abi.abi;
@@ -13,8 +14,8 @@ export default function MonthlyLog() {
     console.log("onMonthlyResults :", value);
     document.getElementById("monthlyPeriodView").innerText = value;
     setMonthlyResults(value);
-  }
 
+  }
   const getMonthlyData = async () => {
     try {
       const { ethereum } = window;
@@ -46,15 +47,14 @@ export default function MonthlyLog() {
   return (
     <div>
       <div id="monthlyPeriodView"></div>
-
       <Button
-        className={"save_button"}
+        className={"monthly-view"}
         variant="contained"
         color={"secondary"}
         onClick={getMonthlyData}
+        value={monthlyResults}
         size={"large"}
       >
-        Monthly View
       </Button>
     </div>
   );
