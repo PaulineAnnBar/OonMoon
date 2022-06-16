@@ -25,15 +25,16 @@ export default function Container() {
                 const sendDailyLog = new ethers.Contract(contractAddress, abiContract, signer)
                 const dateSelected = new Date(datePicker)
 
-                let dailyLogTxn = await sendDailyLog.logDailyData(dateSelected.getFullYear(), dateSelected.getMonth(), dateSelected.getDay(), moodPicker, cyclePicker)
+                let dailyLogTxn = await sendDailyLog.logDailyData(dateSelected.getFullYear(), dateSelected.getMonth(), dateSelected.getDay(), moodPicker, cyclePicker, { gasLimit: 300000 })
+
                 console.log("dailyLog", dailyLogTxn)
 
 
             } else {
-                console.log("Oops,No Ethereum object!")
+                console.log("No ethereum object!")
             }
         } catch (error) {
-            console.log(error)
+            return ("Please make sure you've selected all options!")
         }
     }
 
@@ -62,7 +63,7 @@ export default function Container() {
                 <DatePickerSelector onHappyTime={onDatePicker} />
                 <MoodSelect onMoodPicker={onMoodPicker} />
                 <PeriodSelect onCyclePicker={onCyclePicker} />
-                <Button className={"save_button"} variant="contained" color={"secondary"} onClick={sendAllDataOnSave}
+                <Button className={"save_button"} variant="contained" color={"secondary"} onClick={sendAllDataOnSave} size={"large"}
                 >Save</Button>
             </div>
         </div>

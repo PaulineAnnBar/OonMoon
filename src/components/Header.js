@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {Button} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Button } from "@mui/material";
 
 export default function Header() {
     const [currentAccount, setCurrentAccount] = useState("");
 
     const checkIfWalletIsConnected = async () => {
         try {
-            const {ethereum} = window;
+            const { ethereum } = window;
 
             if (!ethereum) {
                 console.log("Make sure you have metamask!");
@@ -18,7 +18,7 @@ export default function Header() {
             /*
             * Check if we're authorized to access the user's wallet
             */
-            const accounts = await ethereum.request({method: "eth_accounts"});
+            const accounts = await ethereum.request({ method: "eth_accounts" });
 
             if (accounts.length !== 0) {
                 const account = accounts[0];
@@ -34,12 +34,12 @@ export default function Header() {
 
     const connectWallet = async () => {
         try {
-            const {ethereum} = window;
+            const { ethereum } = window;
             if (!ethereum) {
                 alert("Please get a Metamask Wallet");
                 return;
             }
-            const accounts = await ethereum.request({method: "eth_requestAccounts"});
+            const accounts = await ethereum.request({ method: "eth_requestAccounts" });
             console.log("connected", accounts[0]);
             setCurrentAccount(accounts[0]);
         } catch (error) {
@@ -54,7 +54,7 @@ export default function Header() {
 
     return (
         <div className={"header"}>
-            <img src={"/images/logo.png"}/>
+            <img src={"/images/logo.png"} alt="logo" />
             <div className={"header_Text"}>
                 <h2 className={"header_title"}>OonMoon</h2>
                 <p className={"header_subtitle"}>The only decentralised period traker</p>
