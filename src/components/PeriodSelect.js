@@ -19,6 +19,11 @@ export default function PeriodSelect(props) {
   const periodOptions = getPeriodOptions();
 
   const handleChange = (event) => {
+    console.log(
+      `period Value was ${event.target.value} which maps to ${
+        periodOptions[event.target.value]
+      }`
+    );
     setPeriod(event.target.value);
     props.onCyclePicker(event.target.value);
   };

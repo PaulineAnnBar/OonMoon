@@ -43,8 +43,8 @@ export default function Container() {
           dateSelected.getFullYear(),
           dateSelected.getMonth(),
           dateSelected.getDate() - 1,
-          moodPicker,
           cyclePicker,
+          moodPicker,
           { gasLimit: 300000 }
         );
 

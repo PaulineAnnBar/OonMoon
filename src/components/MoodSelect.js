@@ -19,6 +19,11 @@ export default function MoodSelect(props) {
   const moodOptions = getMoodOptions();
 
   const handleChange = (event) => {
+    console.log(
+      `mood Value was ${event.target.value} which maps to ${
+        moodOptions[event.target.value]
+      }`
+    );
     props.onMoodPicker(event.target.value);
     setMood(event.target.value);
   };
