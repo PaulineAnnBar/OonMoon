@@ -37,13 +37,6 @@ export default function MonthlyLog(props) {
         const logs = await monthlyView.getMyMonthlyHistory(props.year, props.month);
         console.log(logs)
         setMonthlyLogs(logs)
-
-
-        // console.log("dailyLog output is:", monthlyViewTxn);
-        // const tableText = createTableFromMonthlyView(monthlyViewTxn);
-        // console.log("tableText is :", tableText);
-        // setMonthlyResults(tableText);
-        // document.getElementById("monthlyPeriodView").innerHTML = tableText;
       } else {
         console.log("No ethereum object!");
       }
@@ -74,7 +67,6 @@ export default function MonthlyLog(props) {
 
   return (
     <div>
-      {/* <div id="monthlyPeriodView" innerHTML={monthlyResults} /> */}
       <Button
         className={"monthly_view_button"}
         variant="contained"
@@ -96,7 +88,6 @@ export default function MonthlyLog(props) {
               <td>{getPeriodDate(index)}</td>
               <td>{getMoodAsString(log.moodFlag)}</td>
               <td>{getPeriodAsString(log.periodFlag)}</td>
-
             </tr>
           )
         })}</table>
