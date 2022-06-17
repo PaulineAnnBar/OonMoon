@@ -2,12 +2,14 @@ import * as React from "react";
 import { Button } from "@mui/material";
 import abi from "../utils/OonMoon.json";
 import { ethers } from "ethers";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getMoodOptions } from "./MoodSelect";
+import { getPeriodOptions } from "./PeriodSelect";
 
 export default function MonthlyLog(props) {
   const [contractAddress, setAddress] = useState("");
-  const [monthlylogs, setMonthlyLogs] = useState([]);
   const [dateCurrent, setDateCurrent] = useState(new Date());
+  const [monthlylogs, setMonthlyLogs] = useState([]);
   const abiContract = abi.abi;
 
   console.log(`contract Address is ${props.props.address}`);
@@ -17,9 +19,12 @@ export default function MonthlyLog(props) {
   }, [props.props.address]);
 
   useState(() => {
-    const dateNew = new Date(props.year, props.month)
+    const dateNew = new Date(props.year, props.month);
     setDateCurrent(dateNew);
   }, [props.year, props.month]);
+
+  const moodOptions = getMoodOptions();
+  const periodOptions = getPeriodOptions();
 
   const getMonthlyData = async () => {
     try {
@@ -33,11 +38,12 @@ export default function MonthlyLog(props) {
           signer
         );
 
-
-        const logs = await monthlyView.getMyMonthlyHistory(props.year, props.month);
-        console.log(logs)
-        setMonthlyLogs(logs)
-
+        const logs = await monthlyView.getMyMonthlyHistory(
+          props.year,
+          props.month
+        );
+        console.log(logs);
+        setMonthlyLogs(logs);
 
         // console.log("dailyLog output is:", monthlyViewTxn);
         // const tableText = createTableFromMonthlyView(monthlyViewTxn);
@@ -52,25 +58,23 @@ export default function MonthlyLog(props) {
       return "Please make sure you've selected all options!";
     }
   };
+
+  useEffect(() => {
+    console.log("loaded");
+    //getMonthlyData();
+  });
+
   const getMoodAsString = (value) => {
-    if (value === 1)
-      return "Moody"
-    if (value === 2)
-      return "It's awesome"
-    return "Not great"
-  }
+    return moodOptions[value];
+  };
 
   const getPeriodAsString = (value) => {
-    if (value === 1)
-      return "Not on my period"
-    if (value === 2)
-      return "Period"
-    return "Break through bleeding"
-  }
+    return periodOptions[value];
+  };
   const getPeriodDate = (value) => {
-    const formatedDay = new Date(props.year, props.month, value + 1)
-    return formatedDay.toLocaleDateString("en")
-  }
+    const formatedDay = new Date(props.year, props.month, value + 1);
+    return formatedDay.toLocaleDateString("en");
+  };
 
   return (
     <div>
@@ -96,10 +100,10 @@ export default function MonthlyLog(props) {
               <td>{getPeriodDate(index)}</td>
               <td>{getMoodAsString(log.moodFlag)}</td>
               <td>{getPeriodAsString(log.periodFlag)}</td>
-
             </tr>
-          )
-        })}</table>
+          );
+        })}
+      </table>
     </div>
   );
 }
