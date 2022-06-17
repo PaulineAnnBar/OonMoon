@@ -2,14 +2,14 @@ import * as React from "react";
 import { Button } from "@mui/material";
 import abi from "../utils/OonMoon.json";
 import { ethers } from "ethers";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getMoodOptions } from "./MoodSelect";
 import { getPeriodOptions } from "./PeriodSelect";
 
 export default function MonthlyLog(props) {
   const [contractAddress, setAddress] = useState("");
-  const [monthlylogs, setMonthlyLogs] = useState([]);
   const [dateCurrent, setDateCurrent] = useState(new Date());
+  const [monthlylogs, setMonthlyLogs] = useState([]);
   const abiContract = abi.abi;
 
   console.log(`contract Address is ${props.props.address}`);
@@ -58,6 +58,12 @@ export default function MonthlyLog(props) {
       return "Please make sure you've selected all options!";
     }
   };
+
+  useEffect(() => {
+    console.log("loaded");
+    //getMonthlyData();
+  });
+
   const getMoodAsString = (value) => {
     return moodOptions[value];
   };
