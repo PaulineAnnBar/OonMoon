@@ -1,12 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Lobster&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Dosis&family=Inter:wght@500&family=Sora:wght@300&display=swap");
 
+body {
+  background-color: #e6e6fa;
+}
 .App {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   position: relative;
-  background-color: #e6e6fa;
 }
 
 .header {
