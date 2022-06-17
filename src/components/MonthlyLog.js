@@ -6,7 +6,8 @@ import { useState } from "react";
 
 export default function MonthlyLog(props) {
   const [contractAddress, setAddress] = useState("");
-  const [monthlyResults, setMonthlyResults] = useState("");
+  const [monthlylogs, setMonthlyLogs] = useState([]);
+  const [dateCurrent, setDateCurrent] = useState(new Date());
   const abiContract = abi.abi;
 
   console.log(`contract Address is ${props.props.address}`);
@@ -15,33 +16,10 @@ export default function MonthlyLog(props) {
     setAddress(props.props.address);
   }, [props.props.address]);
 
-  function createTableFromMonthlyView(monthlyViewTxn) {
-    let resultString = "<table>";
-
-    monthlyViewTxn.forEach(function (item, index) {
-      if (
-        index === 0 ||
-        index === 7 ||
-        index === 14 ||
-        index === 21 ||
-        index === 28
-      ) {
-        resultString += "<tr>";
-      }
-      resultString += "<td>" + item.toString() + "</td>";
-      if (
-        index === 6 ||
-        index === 13 ||
-        index === 20 ||
-        index === 27 ||
-        index === 30
-      ) {
-        resultString += "</tr>";
-      }
-    });
-    resultString += "</table>";
-    return resultString;
-  }
+  useState(() => {
+    const dateNew = new Date(props.year, props.month)
+    setDateCurrent(dateNew);
+  }, [props.year, props.month]);
 
   const getMonthlyData = async () => {
     try {
@@ -54,16 +32,18 @@ export default function MonthlyLog(props) {
           abiContract,
           signer
         );
-        const year = 2022;
-        const month = 5;
 
-        let monthlyViewTxn = await monthlyView.getMyMonthlyHistory(year, month);
 
-        console.log("dailyLog output is:", monthlyViewTxn);
-        const tableText = createTableFromMonthlyView(monthlyViewTxn);
-        console.log("tableText is :", tableText);
-        setMonthlyResults(tableText);
-        document.getElementById("monthlyPeriodView").innerHTML = tableText;
+        const logs = await monthlyView.getMyMonthlyHistory(props.year, props.month);
+        console.log(logs)
+        setMonthlyLogs(logs)
+
+
+        // console.log("dailyLog output is:", monthlyViewTxn);
+        // const tableText = createTableFromMonthlyView(monthlyViewTxn);
+        // console.log("tableText is :", tableText);
+        // setMonthlyResults(tableText);
+        // document.getElementById("monthlyPeriodView").innerHTML = tableText;
       } else {
         console.log("No ethereum object!");
       }
@@ -72,11 +52,29 @@ export default function MonthlyLog(props) {
       return "Please make sure you've selected all options!";
     }
   };
+  const getMoodAsString = (value) => {
+    if (value === 1)
+      return "Moody"
+    if (value === 2)
+      return "It's awesome"
+    return "Not great"
+  }
+
+  const getPeriodAsString = (value) => {
+    if (value === 1)
+      return "Not on my period"
+    if (value === 2)
+      return "Period"
+    return "Break through bleeding"
+  }
+  const getPeriodDate = (value) => {
+    const formatedDay = new Date(props.year, props.month, value + 1)
+    return formatedDay.toLocaleDateString("en")
+  }
 
   return (
     <div>
-      <div id="monthlyPeriodView" innerHTML={monthlyResults} />
-
+      {/* <div id="monthlyPeriodView" innerHTML={monthlyResults} /> */}
       <Button
         className={"monthly_view_button"}
         variant="contained"
@@ -86,6 +84,22 @@ export default function MonthlyLog(props) {
       >
         Get Monthly Data
       </Button>
+      <table>
+        <tr>
+          <th>Date</th>
+          <th>Mood</th>
+          <th>Period Status</th>
+        </tr>
+        {monthlylogs.map((log, index) => {
+          return (
+            <tr key={index}>
+              <td>{getPeriodDate(index)}</td>
+              <td>{getMoodAsString(log.moodFlag)}</td>
+              <td>{getPeriodAsString(log.periodFlag)}</td>
+
+            </tr>
+          )
+        })}</table>
     </div>
   );
 }
