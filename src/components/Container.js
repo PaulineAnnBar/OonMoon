@@ -42,7 +42,7 @@ export default function Container() {
         let dailyLogTxn = await sendDailyLog.logDailyData(
           dateSelected.getFullYear(),
           dateSelected.getMonth(),
-          dateSelected.getDate(),
+          dateSelected.getDate() - 1,
           moodPicker,
           cyclePicker,
           { gasLimit: 300000 }
