@@ -59,7 +59,6 @@ export default function Header() {
                 <h2 className={"header_title"}>OonMoon</h2>
                 <p className={"header_subtitle"}>The only decentralised period traker</p>
             </div>
-
             {!currentAccount && (
                 <Button variant="contained" color={"secondary"} onClick={connectWallet}>Connect Wallet</Button>
             )}
